@@ -2716,11 +2716,8 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral
 1947-07-05,New Zealand,South Africa,0.0,6.0,Friendly,Dunedin,New Zealand,False
 1947-07-06,Bulgaria,Romania,2.0,3.0,Balkan Cup,Sofia,Bulgaria,False
 1947-07-12,New Zealand,South Africa,3.0,8.0,Friendly,Wellington,New Zealand,False
-"1947-07-13,Mexico,United States,5,0,""NAFU Championship"",Havana,Cuba,TRUE",,,,,,,,
-"1947-07-17,Cuba,Mexico,1,3,""NAFU Championship"",Havana,Cuba,FALSE",,,,,,,,
 1947-07-19,New Zealand,South Africa,1.0,4.0,Friendly,Auckland,New Zealand,False
 1947-07-19,Poland,Romania,1.0,2.0,Friendly,Warsaw,Poland,False
-"1947-07-20,Cuba,United States,5,2,""NAFU Championship"",Havana,Cuba,FALSE",,,,,,,,
 1947-07-24,Iceland,Norway,2.0,4.0,Friendly,Reykjavík,Iceland,False
 1947-08-17,Hungary,Bulgaria,9.0,0.0,Balkan Cup,Budapest,Hungary,False
 1947-08-20,Hungary,Albania,3.0,0.0,Balkan Cup,Budapest,Hungary,False
@@ -16323,7 +16320,6 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral
 1990-05-08,Andalusia,Uruguay,1.0,1.0,Friendly,Seville,Spain,False
 1990-05-09,United States,Poland,3.0,1.0,Friendly,Hershey,United States,False
 1990-05-13,Brazil,German DR,3.0,3.0,Friendly,Rio de Janeiro,Brazil,False
-"1990-05-13,Canada,Mexico,2,1,""NAFU Championship"",Burnaby,Canada,FALSE",,,,,,,,
 1990-05-13,Dominica,French Guiana,1.0,1.0,CFU Caribbean Cup qualification,Roseau,Dominica,False
 1990-05-13,Saint Lucia,Bermuda,0.0,2.0,CFU Caribbean Cup qualification,Castries,Saint Lucia,False
 1990-05-15,England,Denmark,1.0,0.0,Friendly,London,England,False
@@ -16673,12 +16669,9 @@ date,home_team,away_team,home_score,away_score,tournament,city,country,neutral
 1991-03-05,Algeria,Tunisia,2.0,1.0,Friendly,Annaba,Algeria,False
 1991-03-09,Uganda,Sudan,0.0,1.0,Friendly,Kampala,Uganda,False
 1991-03-12,Liechtenstein,Switzerland,0.0,6.0,Friendly,Balzers,Liechtenstein,False
-"1991-03-12,United States,Mexico,2,2,""NAFU Championship"",Los Angeles,United States,FALSE",,,,,,,,
 1991-03-13,Argentina,Mexico,0.0,0.0,Friendly,Buenos Aires,Argentina,False
 1991-03-13,Netherlands,Malta,1.0,0.0,UEFA Euro qualification,Rotterdam,Netherlands,False
 1991-03-13,Poland,Finland,1.0,1.0,Friendly,Warsaw,Poland,False
-"1991-03-14,Canada,Mexico,0,3,""NAFU Championship"",Los Angeles,United States,TRUE",,,,,,,,
-"1991-03-16,United States,Canada,2,0,""NAFU Championship"",Torrance,United States,FALSE",,,,,,,,
 1991-03-27,Argentina,Brazil,3.0,3.0,Friendly,Buenos Aires,Argentina,False
 1991-03-27,Belgium,Wales,1.0,1.0,UEFA Euro qualification,Brussels,Belgium,False
 1991-03-27,Czechoslovakia,Poland,4.0,0.0,Friendly,Olomouc,Czechoslovakia,False
