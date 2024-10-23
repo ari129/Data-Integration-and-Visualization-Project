@@ -152,15 +152,16 @@ resumen_shootouts = pd.read_csv('summary_shootouts.csv')
 resumen_shootouts.rename(columns={'Wins': 'Shootout Wins'}, inplace=True)
 
 # Join the two DataFrames by the column 'Country'.
-resumen_completo = pd.merge(resumen_paises, resumen_shootouts[['Country', 'Shootout Wins']], on='Country', how='left')
+summary_combined = pd.merge(resumen_paises, resumen_shootouts[['Country', 'Shootout Wins']], on='Country', how='left')
 
 # Merge the best goalscorers data into the combined summary by matching the 'Country' column with the 'team' column from the goalscorers data
-summary_with_goalscorers = pd.merge(resumen_completo, best_scorers_df[['team', 'scorer', 'goals']], left_on='Country', right_on='team', how='left')
+# Note: The goalscorers data is added, but the DataFrame name remains 'summary_combined'
+summary_combined = pd.merge(summary_combined, best_scorers_df[['team', 'scorer', 'goals']], left_on='Country', right_on='team', how='left')
 
 # Drop the redundant 'team' column from the merged result
-summary_with_goalscorers = summary_with_goalscorers.drop(columns=['team'])
+summary_combined = summary_combined.drop(columns=['team'])
 
 # Saving the final combined summary into a new CSV file
-summary_with_goalscorers.to_csv('summary_combined.csv', index=False)
+summary_combined.to_csv('summary_combined.csv', index=False)
 
 print("The final summary, including goalscorers, has been saved in 'summary_combined.csv'.")
