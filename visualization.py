@@ -6,6 +6,7 @@ from dash.dependencies import Input, Output
 # Read the files
 winners = pd.read_csv('winners_clean.csv')
 goalscorers = pd.read_csv('goalscorers_cleaned.csv')
+scorer_worldcup = pd.read_csv('scorer_worldcup.csv')
 
 # Contar cuántos mundiales ha ganado cada país
 world_cup_wins = winners['Winner'].value_counts().reset_index()
@@ -26,6 +27,17 @@ total_goals_by_country = goalscorers \
     .sum("goals") \
     .rename(columns={"goals": "total_goals"}) \
     .sort_values("total_goals", ascending=False)
+    
+# Winner for each World Cup
+winners_per_year = winners[['Year', 'Winner']]
+
+# Obtener el máximo goleador de cada Mundial
+top_scorers = scorer_worldcup.groupby("Year").apply(lambda x: x.loc[x['Goals'].idxmax()]).reset_index(drop=True)
+top_scorers = top_scorers[['Year', 'Name', 'Goals']].rename(columns={'Name': 'Top_Scorer', 'Goals': 'Goals_Scored'})
+
+# Crear un DataFrame con Año, Ganador y Máximo Goleador
+world_cup_summary = pd.merge(winners_per_year, top_scorers, on="Year")
+world_cup_summary = world_cup_summary[['Year', 'Winner', 'Top_Scorer', 'Goals_Scored']]
 
 # Crear la aplicación Dash
 app = Dash(__name__)
@@ -76,8 +88,27 @@ app.layout = html.Div([
                 )
             ], style={'width': '35%', 'display': 'inline-block', 'padding-left': '20px', 'vertical-align': 'top'})
         ], style={'display': 'flex'})
+    ]),
+    
+    html.Div([
+        html.H3("World Cup Summary: Winner and Top Scorer", style={'text-align': 'center'}),
+        dash_table.DataTable(
+            id='world_cup_summary_table',
+            columns=[
+                {"name": "Year", "id": "Year"},
+                {"name": "Winner", "id": "Winner"},
+                {"name": "Top Scorer", "id": "Top_Scorer"},
+                {"name": "Goals Scored", "id": "Goals_Scored"},
+            ],
+            data=world_cup_summary.to_dict('records'),
+            style_table={'overflowX': 'auto'},
+            style_cell={'textAlign': 'center'},
+            style_header={'backgroundColor': 'lightblue', 'fontWeight': 'bold'},
+            page_size=10  # Mostrar 10 filas por página
+        )
     ])
 ])
+
 
 # Callback para actualizar el gráfico según el país seleccionado
 @app.callback(
