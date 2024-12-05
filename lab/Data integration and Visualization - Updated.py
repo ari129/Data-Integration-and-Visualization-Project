@@ -162,7 +162,7 @@ fig = px.choropleth(total_goals_by_country,
 fig.show()
 
 
-# In[10]:
+# In[18]:
 
 
 import pandas as pd
@@ -200,21 +200,24 @@ world_cup_summary = pd.merge(winners_per_year, top_scorers, on="Year")
 app = Dash(__name__)
 
 # Layout
-app.layout = html.Div([
-    html.H1("ANALYSIS OF THE WORLD CUP", style={'text-align': 'center'}),
+app.layout = html.Div(
+    style={"transform": "scale(0.8)", "transform-origin": "top left"},  # Zoom-out effect
+    children=[
+        html.H1("ANALYSIS OF THE WORLD CUP", style={'text-align': 'center'}),
 
-    # Bar chart for world cups won
-    html.Div([
-        html.H3("Bar Chart: World Cups Won and Won at Home", style={'text-align': 'center'}),
-        dcc.Graph(id='bar_chart')
-    ]),
+        # Bar chart for world cups won
+        html.Div([
+            html.H3("Bar Chart: World Cups Won and Won at Home", style={'text-align': 'center'}),
+            dcc.Graph(id='bar_chart', style={'height': '600px', 'width': '100%'})  # Adjust chart size
+        ]),
 
-    # Visualization for second table
-    html.Div([
-        html.H3("Visualization: Top Scorers and World Cup Winners", style={'text-align': 'center'}),
-        dcc.Graph(id='line_chart')
-    ]),
-])
+        # Visualization for second table
+        html.Div([
+            html.H3("Visualization: Top Scorers and World Cup Winners", style={'text-align': 'center'}),
+            dcc.Graph(id='line_chart', style={'height': '600px', 'width': '100%'})  # Adjust chart size
+        ]),
+    ]
+)
 
 
 # Callback for the bar chart
@@ -257,6 +260,17 @@ def update_line_chart(_):
         text="Top_Scorer"
     )
     fig.update_traces(marker=dict(size=12), textposition="top center")
+    fig.update_layout(
+        xaxis=dict(
+            tickmode="linear",  # Ensure every year is shown
+            tick0=1930,        # Start from the first World Cup year
+            dtick=4,           # Show every 4th year for World Cup cycles
+            range=[1928, 2016] # Add extra padding on both sides
+        ),
+        xaxis_title="Year",
+        yaxis_title="Goals Scored",
+        margin=dict(l=50, r=50, t=50, b=50)  # Add extra space for padding
+    )
     return fig
 
 
