@@ -14,9 +14,11 @@ summary_results = pd.read_csv('summary_combined.csv')
 summary_table = winners.groupby("Winner", as_index=False).agg(
     World_Cups_Won=('Year', 'count')
 ).rename(columns={"Winner": "Country"}).sort_values("World_Cups_Won", ascending=False)
+
 # Calculate how many world cups were won at home
 home_wins = winners[winners['Country'] == winners['Winner']].groupby('Winner').size()
 summary_table["World_Cups_Won_at_Home"] = summary_table["Country"].map(home_wins).fillna(0).astype(int)
+
 # Winner and Top Scorer for each World Cup (for second chart)
 winners_per_year = winners[['Year', 'Winner']]
 top_scorers = scorer_worldcup.groupby("Year").apply(lambda x: x.loc[x['Goals'].idxmax()]).reset_index(drop=True)
@@ -87,19 +89,26 @@ app.layout = html.Div([
         )
     ], style={'margin-bottom': '30px'}),
     
+    # Resumen del país seleccionado
+    html.Div([
+        html.H3("Country Summary", style={'text-align': 'center'}),
+        html.Div(id='country_summary', style={'text-align': 'center', 'margin': '20px'})
+    ]),
+
+    
    html.Div([
         dcc.Graph(id='choropleth_map', style={'height': '80vh'})
     ]), 
 
         # Bar chart for world cups won
     html.Div([
-        html.H3("Bar Chart: World Cups Won and Won at Home", style={'text-align': 'center'}),
+        html.H3("World Cups Won and Won at Home", style={'text-align': 'center'}),
         dcc.Graph(id='bar_chart')
     ]),
     
         # Visualization for second table
     html.Div([
-        html.H3("Visualization: Top Scorers and World Cup Winners", style={'text-align': 'center'}),
+        html.H3("Top Scorers and World Cup Winners", style={'text-align': 'center'}),
         dcc.Graph(id='line_chart')
     ]),
 
@@ -120,10 +129,48 @@ def update_map(selected_metric):
         locationmode="country names",
         color=selected_metric,
         hover_name="Country",
-        title=f"World Cup Metric: {selected_metric}",
+        title=f"Selection: {selected_metric}",
         color_continuous_scale=px.colors.sequential.Viridis
     )
     return fig
+
+@app.callback(
+    Output('country_summary', 'children'),
+    [Input('choropleth_map', 'clickData')]
+)
+def update_country_summary(clickData):
+    if clickData is None:
+        return "Click on a country to see the summary."
+
+    # Obtener el país seleccionado
+    country = clickData['points'][0]['location']
+
+    # Filtrar los datos según el país
+    country_data = summary_results[summary_results['Country'] == country]
+
+    if country_data.empty:
+        return f"No data available for {country}."
+
+    # Extraer los valores necesarios
+    matches_played = country_data['Matches Played'].values[0]
+    wins = country_data['Wins'].values[0]
+    losses = country_data['Losses'].values[0]
+    home_wins = country_data['Home Wins'].values[0]
+    world_cups_won = country_data['World Cups Won'].values[0]
+    world_cup_locations = country_data['World Cup Locations'].values[0]
+    shootout_wins = country_data['Shootout Wins'].values[0]
+
+    # Crear el resumen en formato HTML
+    return html.Div([
+        html.P(f"Matches Played: {matches_played}"),
+        html.P(f"Wins: {wins}"),
+        html.P(f"Losses: {losses}"),
+        html.P(f"Home Wins: {home_wins}"),
+        html.P(f"World Cups Won: {world_cups_won}"),
+        html.P(f"World Cup Locations: {world_cup_locations}"),
+        html.P(f"Shootout Wins: {shootout_wins}")
+    ])
+
 
 @app.callback(
     Output('bar_chart', 'figure'),
