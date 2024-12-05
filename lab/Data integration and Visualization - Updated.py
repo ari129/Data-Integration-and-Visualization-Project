@@ -162,7 +162,7 @@ fig = px.choropleth(total_goals_by_country,
 fig.show()
 
 
-# In[6]:
+# In[10]:
 
 
 import pandas as pd
@@ -183,6 +183,12 @@ summary_table = winners.groupby("Winner", as_index=False).agg(
 # Calculate how many world cups were won at home
 home_wins = winners[winners['Country'] == winners['Winner']].groupby('Winner').size()
 summary_table["World_Cups_Won_at_Home"] = summary_table["Country"].map(home_wins).fillna(0).astype(int)
+
+# Rename columns for display purposes
+summary_table = summary_table.rename(columns={
+    "World_Cups_Won": "World Cups Won",
+    "World_Cups_Won_at_Home": "World Cups Won at Home"
+})
 
 # Winner and Top Scorer for each World Cup (for second chart)
 winners_per_year = winners[['Year', 'Winner']]
@@ -220,7 +226,7 @@ def update_bar_chart(_):
     fig = px.bar(
         summary_table,
         x="Country",
-        y=["World_Cups_Won", "World_Cups_Won_at_Home"],
+        y=["World Cups Won", "World Cups Won at Home"],
         barmode="group",
         labels={"value": "World Cups", "variable": "Category"},
         title="World Cups Won and Won at Home",
